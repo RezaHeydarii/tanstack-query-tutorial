@@ -45,21 +45,21 @@ starter-project/
 
 3. **Run the Mock Server**:  
    The MSW server automatically starts with the app. Ensure `src/mocks/browser.ts` is imported in your `main.tsx` file:  
-   ```typescript  
-  import { StrictMode } from "react";
-  import { createRoot } from "react-dom/client";
-  import "./index.css";
-  import App from "./App.tsx";
-  import { worker } from "./mocks";
+  ```typescript  
+    import { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+    import "./index.css";
+    import App from "./App.tsx";
+    import { worker } from "./mocks";
 
-  worker.start().then(() => {
-    createRoot(document.getElementById("root")!).render(
-      <StrictMode>
-        <App />
-      </StrictMode>
-    );
-  }); 
-   ```  
+    worker.start().then(() => {
+      createRoot(document.getElementById("root")!).render(
+        <StrictMode>
+          <App />
+        </StrictMode>
+      );
+    }); 
+  ```  
 
 4. **Run the Development Server**:  
    Start the project locally:  
