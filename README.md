@@ -12,6 +12,7 @@ This course is designed for front-end developers looking to:
 
 ```
 ./apps/starter-project
+./apps/queries
 
 ```  
 
