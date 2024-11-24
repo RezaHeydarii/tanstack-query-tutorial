@@ -1,50 +1,77 @@
-# React + TypeScript + Vite
+# Chapter 1: Starter Project  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Starter Project**! This chapter provides a foundational setup for the course, ensuring all necessary tools and configurations are in place.  
 
-Currently, two official plugins are available:
+## 🚀 **Features and Configurations**  
+This project comes pre-configured with the following:  
+- **[TailwindCSS](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.  
+- **[Axios](https://axios-http.com/)**: A promise-based HTTP client for API requests.  
+- **[React Router](https://reactrouter.com/)**: Declarative routing for React applications.  
+- **[MSW (Mock Service Worker)](https://mswjs.io/)**: A powerful tool for mocking API requests during development.  
+- Additional small configurations to streamline development.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📁 **Project Structure**  
+Here’s an overview of the project structure:  
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
 ```
+starter-project/  
+├── src/    
+│   ├── mocks/          # MSW mock server setup  
+│   │   ├── handlers/   # API request handlers  
+│   │   └── index.ts    # MSW browser setup  
+│   ├── services/       # all services needed for this project 
+│   │   ├── http/       # API request handlers  
+│   ├── App.tsx         # Main app entry point  
+│   ├── main.tsx        # React DOM rendering  
+├── public/             # Static assets  
+├── package.json        # Dependencies and scripts  
+├── tailwind.config.js  # TailwindCSS configuration  
+├── tsconfig.json       # TypeScript configuration  
+└── README.md           # Documentation for this chapter  
+```  
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🛠️ **Setup and Installation**  
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. **Navigate to the Starter Project**:  
+   ```bash  
+   cd ./apps/starter-project  
+   ```  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+2. **Install Dependencies**:  
+   Run the following command to install all required packages:  
+   ```bash  
+   yarn install  
+   ```  
+
+3. **Run the Mock Server**:  
+   The MSW server automatically starts with the app. Ensure `src/mocks/browser.ts` is imported in your `main.tsx` file:  
+   ```typescript  
+  import { StrictMode } from "react";
+  import { createRoot } from "react-dom/client";
+  import "./index.css";
+  import App from "./App.tsx";
+  import { worker } from "./mocks";
+
+  worker.start().then(() => {
+    createRoot(document.getElementById("root")!).render(
+      <StrictMode>
+        <App />
+      </StrictMode>
+    );
+  }); 
+   ```  
+
+4. **Run the Development Server**:  
+   Start the project locally:  
+   ```bash  
+   yarn dev  
+   ``` 
+
+5. **View in Browser**:  
+   Open your browser and go to [http://localhost:5173](http://localhost:5173) to see the app.  
+
+## ✨ **Next Steps**  
+With the starter project ready, you can now dive into the core concepts of React Query in the next chapters!  
+
+## 🧑‍💻 **Customization**  
+Feel free to modify or expand the setup based on your project needs as we progress through the course.  
