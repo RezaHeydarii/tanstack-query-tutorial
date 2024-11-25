@@ -109,7 +109,7 @@ const defaultVal = [
 
 const { getData, setData } = localStorageData(key, defaultVal);
 
-export const userHandlers = [
+export const todoHandlers = [
   http.get("/api/todo", async () => {
     await delay(2000);
     return HttpResponse.json(getData());
