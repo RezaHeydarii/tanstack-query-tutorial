@@ -14,6 +14,16 @@ const httpService = new Axios({
       }
     },
   ],
+  transformRequest: [
+    (data) => {
+      try {
+        return JSON.stringify(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        return data;
+      }
+    },
+  ],
 });
 
 export default httpService;

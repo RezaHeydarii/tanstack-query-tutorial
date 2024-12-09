@@ -32,7 +32,7 @@ export const userHandlers = [
     await delay(1500);
     const newUser: any = await request.json();
     const list = getData();
-    const newList = [...list, { ...newUser, id: list.length + 1 }];
+    const newList = [{ ...newUser, id: list.length + 1 }, ...list];
     setData(newList);
     return HttpResponse.json(newUser);
   }),

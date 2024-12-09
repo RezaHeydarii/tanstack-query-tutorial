@@ -126,37 +126,46 @@ export const todoHandlers = [
   }),
   http.get("/api/todo/:id", async ({ params }) => {
     await delay(2000);
-    const todo = getData().find((u) => u.id === params.id);
+    const todo = getData().find((u) => u.id == params.id);
     if (!todo) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json(todo);
   }),
   http.put("/api/todo/:id/toggle", async ({ params }) => {
     await delay(2000);
-    const todo = getData().find((u) => u.id === params.id);
+    const todo = getData().find((u) => u.id == params.id);
     if (!todo) return new HttpResponse(null, { status: 404 });
     const newTodo = { ...todo, isDone: !todo.isDone };
     const list = getData();
-    const newList = list.map((l) => (l.id === newTodo.id ? newTodo : l));
+    const newList = list.map((l) => (l.id == newTodo.id ? newTodo : l));
     setData(newList);
     return HttpResponse.json(todo);
   }),
   http.put("/api/todo/:id", async ({ params, request }) => {
     await delay(2000);
-    const todo = getData().find((u) => u.id === params.id);
+    const todo = getData().find((u) => u.id == params.id);
     if (!todo) return new HttpResponse(null, { status: 404 });
     const editedFields: any = await request.json();
     const newTodo = { ...todo, ...editedFields };
     const list = getData();
-    const newList = list.map((l) => (l.id === newTodo.id ? newTodo : l));
+    const newList = list.map((l) => (l.id == newTodo.id ? newTodo : l));
     setData(newList);
     return HttpResponse.json(todo);
   }),
   http.post("/api/todo", async ({ request }) => {
     await delay(1500);
+    console.log(request);
     const newTodo: any = await request.json();
     const list = getData();
-    const newList = [...list, { ...newTodo, id: list.length + 1 }];
+    const newList = [{ ...newTodo, id: list.length + 1 }, ...list];
     setData(newList);
     return HttpResponse.json(newTodo);
+  }),
+  http.delete("/api/todo/:id", async ({ params }) => {
+    await delay(2000);
+    const todo = getData().find((u) => u.id == params.id);
+    if (!todo) return new HttpResponse(null, { status: 404 });
+    const list = getData().filter((item) => item.id != params.id);
+    setData(list);
+    return HttpResponse.json(todo);
   }),
 ];

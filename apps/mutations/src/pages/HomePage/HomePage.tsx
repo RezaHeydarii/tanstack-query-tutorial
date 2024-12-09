@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { useTodoList } from "../../hooks";
+import { useTodoList, useToggleTodoDone } from "../../hooks";
+import { useState } from "react";
+import { AddTodoDialog } from "./components/AddTodoDialog";
+import { TodoItem } from "../../types";
 
 const buttonStyles = {
   activeButtonCls: "border-gray-400 bg-green-500",
@@ -7,7 +10,15 @@ const buttonStyles = {
 };
 
 const HomePage = () => {
-  const { data, isLoading, isFetching } = useTodoList();
+  const { data, isLoading, refetch } = useTodoList();
+  const [showAdder, toggleAdder] = useState<boolean>(false);
+  const { isPending, mutateAsync } = useToggleTodoDone();
+
+  const onToggleDone = async (item: TodoItem) => {
+    mutateAsync({ todoId: item.id, isDone: !item.isDone }).then(() =>
+      refetch()
+    );
+  };
 
   if (isLoading) {
     return (
@@ -19,7 +30,16 @@ const HomePage = () => {
 
   return (
     <div>
-      {isFetching && <div className="text-center">fetching data</div>}
+      <header className="flex justify-between items-center w-full px-5 pt-2.5 pb-2 border-b border-gray-400/40 mb-5">
+        <h1 className="text-2xl font-bold">My todo list</h1>
+        <button
+          type="button"
+          onClick={() => toggleAdder(true)}
+          className="h-9 px-5 bg-blue-500 text-white rounded-md"
+        >
+          Add
+        </button>
+      </header>
       <section className="px-5 pt-2.5 grid grid-cols-2 lg:grid-cols-4 gap-2">
         {data &&
           data?.map((item) => {
@@ -41,11 +61,18 @@ const HomePage = () => {
                       item.isDone ? "activeButtonCls" : "disableButtonCls"
                     ],
                   ].join(" ")}
+                  onClick={() => onToggleDone(item)}
+                  disabled={isPending}
                 />
               </div>
             );
           })}
       </section>
+      <AddTodoDialog
+        open={showAdder}
+        onClose={() => toggleAdder(false)}
+        onCreateSuccess={refetch}
+      />
     </div>
   );
 };
