@@ -5,11 +5,10 @@ import { useCreateTodo } from "../../../hooks";
 interface AddTodoDialogProps {
   open: boolean;
   onClose?: () => void;
-  onCreateSuccess?: () => void;
 }
 
 export const AddTodoDialog = (props: AddTodoDialogProps) => {
-  const { open, onClose, onCreateSuccess } = props;
+  const { open, onClose } = props;
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
 
@@ -23,7 +22,6 @@ export const AddTodoDialog = (props: AddTodoDialogProps) => {
       { title, body },
       {
         onSuccess: () => {
-          onCreateSuccess?.();
           setTitle("");
           setBody("");
           onClose?.();

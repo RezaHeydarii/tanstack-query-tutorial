@@ -8,7 +8,7 @@ const buttonStyles = {
 
 const TodoPage = () => {
   const { id } = useParams();
-  const { data, isLoading, refetch } = useTodoItem(id);
+  const { data, isLoading } = useTodoItem(id);
   const { mutate: deleteTodo, isPending: deletingTodo } = useDeleteTodo();
   const { mutate: toggleTodoDone, isPending: togglingTodo } =
     useToggleTodoDone();
@@ -16,15 +16,16 @@ const TodoPage = () => {
 
   const onDeleteClicked = () => {
     if (!data) return;
-    deleteTodo(data.id, { onSuccess: () => navigate("/") });
+    deleteTodo(data.id, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
   };
 
   const onTodoDoneClicked = () => {
     if (!data) return;
-    toggleTodoDone(
-      { todoId: data.id, isDone: !data.isDone },
-      { onSuccess: () => refetch() }
-    );
+    toggleTodoDone({ todoId: data.id, isDone: !data.isDone });
   };
 
   if (isLoading || !data)

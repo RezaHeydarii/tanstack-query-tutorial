@@ -10,6 +10,16 @@ const httpService = new Axios({
         return JSON.parse(data);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
+        throw data;
+      }
+    },
+  ],
+  transformRequest: [
+    (data) => {
+      try {
+        return JSON.stringify(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
         return data;
       }
     },

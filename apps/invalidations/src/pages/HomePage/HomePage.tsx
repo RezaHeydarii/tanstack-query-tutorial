@@ -10,14 +10,12 @@ const buttonStyles = {
 };
 
 const HomePage = () => {
-  const { data, isLoading, refetch } = useTodoList();
+  const { data, isLoading } = useTodoList();
   const [showAdder, toggleAdder] = useState<boolean>(false);
-  const { isPending, mutateAsync } = useToggleTodoDone();
+  const { isPending, mutate } = useToggleTodoDone();
 
   const onToggleDone = async (item: TodoItem) => {
-    mutateAsync({ todoId: item.id, isDone: !item.isDone }).then(() =>
-      refetch()
-    );
+    mutate({ todoId: item.id, isDone: !item.isDone });
   };
 
   if (isLoading) {
@@ -68,11 +66,7 @@ const HomePage = () => {
             );
           })}
       </section>
-      <AddTodoDialog
-        open={showAdder}
-        onClose={() => toggleAdder(false)}
-        onCreateSuccess={refetch}
-      />
+      <AddTodoDialog open={showAdder} onClose={() => toggleAdder(false)} />
     </div>
   );
 };

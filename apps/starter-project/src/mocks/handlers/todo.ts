@@ -117,9 +117,24 @@ const defaultVal = [
   },
 ];
 
-const { getData, setData } = localStorageData(key, defaultVal);
+const { getData, setData, generateUUID } = localStorageData(key, defaultVal);
 
 export const todoHandlers = [
+  http.get("/api/todo/paginated", async ({ request }) => {
+    await delay(2000);
+    const allData = getData();
+    const PER_PAGE = 20;
+    const searchPage = request.url.split("?page=")[1];
+    const page = searchPage ? parseInt(searchPage) : 0;
+    const meta = {
+      page,
+      totalPage: Math.floor(allData.length / PER_PAGE),
+    };
+    return HttpResponse.json({
+      data: getData().slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE),
+      meta,
+    });
+  }),
   http.get("/api/todo", async () => {
     await delay(2000);
     return HttpResponse.json(getData());
@@ -156,9 +171,10 @@ export const todoHandlers = [
     console.log(request);
     const newTodo: any = await request.json();
     const list = getData();
-    const newList = [{ ...newTodo, id: list.length + 1 }, ...list];
+    const id = generateUUID();
+    const newList = [{ ...newTodo, id }, ...list];
     setData(newList);
-    return HttpResponse.json(newTodo);
+    return HttpResponse.json({ ...newTodo, id });
   }),
   http.delete("/api/todo/:id", async ({ params }) => {
     await delay(2000);

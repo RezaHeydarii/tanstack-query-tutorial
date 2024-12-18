@@ -3,7 +3,9 @@ import httpService from "../services/http";
 import { PostTodoRequest, TodoItem, ToggleTodoDone } from "../types";
 
 export const getTodoList = () => {
-  return httpService.get<TodoItem[]>(TODO_QKS.GET_LIST).then((res) => res.data);
+  return httpService
+    .get<TodoItem[]>(TODO_QKS.GET_LIST + "?page=1")
+    .then((res) => res.data);
 };
 
 export const getTodo = (todoId: string) => {
