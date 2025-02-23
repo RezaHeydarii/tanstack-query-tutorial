@@ -17,3 +17,11 @@ export interface ToggleTodoDone {
   isDone: boolean;
   todoId: string;
 }
+
+export interface GetPaginateData<T> {
+  data: T[];
+  meta: {
+    page: number;
+    totalPage: number;
+  };
+}

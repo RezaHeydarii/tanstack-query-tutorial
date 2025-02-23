@@ -1,10 +1,21 @@
 import { TODO_QKS } from "../constants";
 import httpService from "../services/http";
-import { PostTodoRequest, TodoItem, ToggleTodoDone } from "../types";
+import {
+  GetPaginateData,
+  PostTodoRequest,
+  TodoItem,
+  ToggleTodoDone,
+} from "../types";
 
 export const getTodoList = () => {
+  return httpService.get<TodoItem[]>(TODO_QKS.GET_LIST).then((res) => res.data);
+};
+
+export const getPaginatedTodoList = (page: number = 1) => {
   return httpService
-    .get<TodoItem[]>(TODO_QKS.GET_LIST + "?page=1")
+    .get<
+      GetPaginateData<TodoItem>
+    >(TODO_QKS.GET_PAGINATED_LIST + `?page=${page}`)
     .then((res) => res.data);
 };
 
